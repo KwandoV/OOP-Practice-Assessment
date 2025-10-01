@@ -5,23 +5,32 @@ package com.assessment.products;
  */
 public class ClothingProduct extends Product {
     // TODO: Add private fields for size (String) and material (String)
+    private String size;
+    private String material;
 
     /**
      * Constructs a ClothingProduct object.
      */
     public ClothingProduct(String id, String name, double price, int stockQuantity, String size, String material) {
         super(id, name, price, stockQuantity);
+        this.material=material;
+        this.size=size;
         // TODO: IMPLEMENT: Initialize clothing-specific fields.
     }
 
     // TODO: Create getters for size and material
-    public String getSize() { return ""; }
-    public String getMaterial() { return ""; }
+    public String getSize() { return this.size; }
+    public String getMaterial() { return this.material; }
 
     @Override
     public double calculateDiscount() {
         // TODO: IMPLEMENT: Clothing gets 15% discount if price > 100, otherwise 8%.
-        return 0.0;
+        if (this.getPrice()>100){
+            return this.getPrice()*0.15;
+        }else {
+            return this.getPrice()*0.08;
+        }
+
     }
 
     @Override

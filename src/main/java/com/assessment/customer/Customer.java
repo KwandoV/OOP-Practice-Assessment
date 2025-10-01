@@ -11,16 +11,22 @@ import java.util.List;
  */
 public class Customer {
     // TODO: Add private fields for name (String) , email (String) and cart (ShoppingCart)
+    private String name;
+    private String email;
+    private ShoppingCart cart;
 
     // TODO: Create constructor that initializes name, email, and the ShoppingCart
     public Customer(String name, String email) {
         // TODO: IMPLEMENT: Initialize name email fields, and cart fields.
+        this.name=name;
+        this.email=email;
+        this.cart = new ShoppingCart();
 
     }
 
     // TODO: Create getters for name and email
-    public String getName() { return ""; }
-    public String getEmail() { return ""; }
+    public String getName() { return this.name; }
+    public String getEmail() { return this.email; }
 
     /**
      * Adds a product to the shopping cart via the Cart object.
@@ -29,6 +35,9 @@ public class Customer {
     public void addToCart(Product product) {
         // TODO: IMPLEMENT: Check if product has stock > 0 before adding (using product's method)
         // If in stock, call the cart.addItem(product) method.
+        if (product.getStockQuantity()>0){
+            cart.addItem(product);
+        }
     }
 
     /**
@@ -37,6 +46,7 @@ public class Customer {
      */
     public void removeFromCart(Product product) {
         // TODO: IMPLEMENT: Call the cart.removeItem(product) method.
+        cart.removeItem(product);
     }
 
     /**
@@ -45,7 +55,8 @@ public class Customer {
      */
     public double getCartTotal() {
         // TODO: IMPLEMENT: Call the cart.calculateTotal() method.
-        return 0.0;
+        return cart.calculateTotal();
+
     }
 
     /**
@@ -54,7 +65,7 @@ public class Customer {
      */
     public ShoppingCart getCart() {
         // CHALLENGE: Return the unmodifiable list from the cart object.
-        return new ShoppingCart();
+        return cart;
     }
 
     /**
@@ -62,5 +73,6 @@ public class Customer {
      */
     public void clearCart() {
         // TODO: IMPLEMENT: Call the cart.clear() method.
+        cart.clear();
     }
 }

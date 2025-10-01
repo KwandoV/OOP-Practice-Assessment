@@ -13,13 +13,21 @@ import java.util.UUID;
  */
 public class Order {
     // TODO: Add private fields for orderId (String), customer (Customer),
-    // products (List<Product>), and paymentMethod (PaymentMethod)
+    // products (List<Product>), and paymentMethod
+    private String orderId;
+    private Customer customer;
+    private List<Product> products;
+    private PaymentMethod paymentMethod;
 
     /**
      * Constructs an Order object, generating a unique ID and copying products from the customer's cart.
      * This is the ONLY constructor, enforcing internal ID generation.
      */
     public Order(Customer customer, PaymentMethod paymentMethod) {
+       this.customer=customer;
+       this.paymentMethod=paymentMethod;
+       this.orderId="ORD-"+UUID.randomUUID().toString();
+       products=customer.getCart().getItems();
         // TODO: IMPLEMENT: Initialize orderId with the UUID structure ("ORD-" + UUID.randomUUID().toString()).
         // TODO: IMPLEMENT: Initialize customer and paymentMethod fields.
 
@@ -31,16 +39,29 @@ public class Order {
     public String getOrderId() {
         
         // return the generated ID.
-        return "GENERATED_ID";
+        return this.orderId;
     }
 
     public double calculateTotal() {
         // TODO: IMPLEMENT: Sum up all discounted product prices from the order list.
-        return 0.0;
+        return this.customer.getCartTotal();
     }
 
     public boolean processOrder() {
-        // TODO: IMPLEMENT STEPS:
+        // TODO: IMPLEMENT STEPS
+        if (!products.isEmpty()){
+            double total=calculateTotal();
+            boolean isPaymentSuccess=paymentMethod.processPayment(total);
+
+            if(isPaymentSuccess){
+                for (Product product:products){
+                    product.setStockQuantity(product.getStockQuantity()-1);
+
+                } customer.clearCart();
+                return true;
+            }
+
+        }
         // 1. Check if products list is not empty.
         // 2. Calculate total.
         // 3. Process payment using paymentMethod.processPayment(total).
